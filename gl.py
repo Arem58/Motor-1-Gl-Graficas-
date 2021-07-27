@@ -66,6 +66,23 @@ class Renderer(object):
             return
         if (0 < x < self.width) and (0 < y < self.height): 
             self.pixels[int(x)][int(y)] = color or self.curr_color
+
+    def loadpol(self, pol):
+        lenPol = len(pol)
+        for i in range(lenPol):
+            x0 = pol[i][0]
+            y0 = pol[i][1]
+            x1 = pol[(i + 1) % lenPol][0]
+            y1 = pol[(i + 1) % lenPol][1]
+            self.glLine(V2(x0, y0), V2(x1, y1))
+
+    def fillPol(self, background, lineColor, fillColor, xMax):
+        for y in range(self.height):
+            for x in range(self.width):
+                if (self.pixels[x-1][y] == lineColor or self.pixels[x-1][y] == fillColor):
+                    if(x<xMax):
+                        self.glPoint(x, y, fillColor)
+                        
     
     def glLine(self, v0, v1, color = None):
         x0 = v0.x
