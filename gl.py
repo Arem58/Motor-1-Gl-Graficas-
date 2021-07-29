@@ -1,6 +1,7 @@
 import collections
 import struct
 from collections import namedtuple
+from obj import Obj
 
 V2 = namedtuple('Point2', ['x', 'y'])
 
@@ -79,7 +80,7 @@ class Renderer(object):
     def fillPol(self, background, lineColor, fillColor, xMax):
         for y in range(self.height):
             for x in range(self.width):
-                if (self.pixels[x-1][y] == lineColor or self.pixels[x-1][y] == fillColor):
+                if (self.pixels[x-1][y] == lineColor or fillColor):
                     if(x<xMax):
                         self.glPoint(x, y, fillColor)
                         
@@ -128,7 +129,9 @@ class Renderer(object):
         y0 = int( (v0.y + 1) * (self.vpHeight / 2) + self.vpY)
         y1 = int( (v1.y + 1) * (self.vpHeight / 2) + self.vpY)
 
-        print(x0,x1,y0,y1)
+        if x0 == x1 and y0 == y1:
+            self.glPoint(x0, y1, color)
+            return
 
         dx = abs(x1 - x0)
         dy = abs(y1 - y0)
@@ -161,6 +164,24 @@ class Renderer(object):
             if offset >= limit:
                 y += 1 if y0 < y1 else -1
                 limit += 1
+    
+    def glLoadMOdel(self, filename, translate = V2(0.0, 0.0) ,scale=V2(1, 1)):
+        model = Obj(filename)
+
+        for face in model.faces:
+            vertCount = len(face)
+            for v in range(vertCount):
+                index0 = vertIndex = face[v][0] - 1
+                index1 = vertIndex = face[(v + 1) % vertCount][0] - 1
+                vert0 = model.vertices[index0]
+                vert1 = model.vertices[index1]
+
+                x0 = round(vert1[0] * scale.x + translate.x)
+                y0 = round(vert1[1] * scale.y + translate.y)
+                x1 = round(vert1[0] * scale.x + translate.x)
+                y1 = round(vert1[1] * scale.x + translate.y)
+
+                self.glLine(V2(x0, y0), V2(x1, y1))
     
     def glFinish(self, filename):
         with open(filename, "wb") as file:
