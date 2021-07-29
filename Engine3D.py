@@ -5,7 +5,7 @@ height = 1080
 
 rend = Renderer(width, height)
 
-rend.glLoadMOdel("cube.obj")
+rend.glLoadModel("estufa.obj",V2(width/2, height/2-100), V2(300, 300))
 
 #pol1 = [(165, 380), (185, 360), (180, 330), (207, 345), (233, 330) ,(230, 360), (250, 380), (220, 385), (205, 410), (193, 383)]
 #pol2 = [(321, 335), (288, 286), (339, 251), (374, 302)]
