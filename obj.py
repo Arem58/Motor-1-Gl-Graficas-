@@ -3,13 +3,14 @@
 class Obj(object):
     def __init__(self, filename):
 
-        with open(filename) as file:
-            self.lines = file.read().splitlines
+        with open(filename, "r") as file:
+            self.lines = file.read().splitlines()
 
         self.vertices = []
         self.texcoords = []
         self.normals = []
         self.faces = []
+        
         self.read()
 
     def read(self): 
@@ -18,12 +19,10 @@ class Obj(object):
                 prefix, value = line.split(' ', 1)
 
                 if prefix == 'v': #Vertices
-                    self.vertices.append(map(list(float, value.split(' '))))
+                    self.vertices.append(list(map(float, value.split(' '))))
                 elif prefix == ' vt': #Texture Coordinates
-                    self.texcoords.append(value)
+                    self.texcoords.append(list(map(float, value.split(' '))))
                 elif prefix == 'vn': #Normales
-                    self.normals.append(map(list(float, value.split(' '))))
+                    self.normals.append(list(map(float, value.split(' '))))
                 elif prefix == 'f': #Caras
                     self.faces.append( [ list(map(int, vert.split('/'))) for vert in value.split(' ') ] )
-
-
