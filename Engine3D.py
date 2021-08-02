@@ -1,11 +1,11 @@
 from gl import Renderer, V2, color
 
-width = 1920
-height = 1080
+width = 52
+height = 52
 
 rend = Renderer(width, height)
 
-rend.glLoadModel("estufa.obj",V2(width/2, height/2-100), V2(300, 300))
+#rend.glLoadModel("estufa.obj",V2(width/2, height/2-100), V2(300, 300))
 
 #pol1 = [(165, 380), (185, 360), (180, 330), (207, 345), (233, 330) ,(230, 360), (250, 380), (220, 385), (205, 410), (193, 383)]
 #pol2 = [(321, 335), (288, 286), (339, 251), (374, 302)]
@@ -20,9 +20,25 @@ rend.glLoadModel("estufa.obj",V2(width/2, height/2-100), V2(300, 300))
 #rend.loadpol(pol4)
 
 
-#rend.glLine(V2(10, 10), V2(10, 40))
-#rend.glLine(V2(40, 10), V2(40, 40))
-#rend.fillPol(color(0, 0, 0), color(1, 1, 1), color(0, 1, 0), 40)
+rend.glLine(V2(10, 10), V2(10, 40))
+rend.glLine(V2(15, 10), V2(15, 40))
+rend.glLine(V2(20, 10), V2(20, 40))
+rend.glLine(V2(25, 10), V2(25, 40))
+rend.glLine(V2(40, 10), V2(40, 40))
+rend.glLine(V2(35, 10), V2(35, 40))
+rend.glLine(V2(30, 10), V2(30, 40))
+
+
+rend.glLine(V2(10, 10), V2(15, 10))
+rend.glLine(V2(20, 10), V2(25, 10))
+rend.glLine(V2(30, 10), V2(35, 10))
+
+rend.glLine(V2(10, 40), V2(15, 40))
+rend.glLine(V2(20, 40), V2(25, 40))
+rend.glLine(V2(30, 40), V2(35, 40))
+rend.fillPol(color(1, 0, 0), color(1, 1, 1), color(0, 1, 0), 0, 40, 10, 40)
+
+
 
 #Triangle
 #rend.glLine(V2(50, 50), V2(500, 400))

@@ -77,13 +77,29 @@ class Renderer(object):
             y1 = pol[(i + 1) % lenPol][1]
             self.glLine(V2(x0, y0), V2(x1, y1))
 
-    def fillPol(self, background, lineColor, fillColor, xMax):
+    def fillPol(self, background, lineColor, fillColor, xMin, xMax, yMin, yMax):
         for y in range(self.height):
             for x in range(self.width):
-                if (self.pixels[x-1][y] == lineColor or fillColor):
-                    if(x<xMax):
-                        self.glPoint(x, y, fillColor)
-                        
+                if (self.pixels[x][y] == lineColor):
+                    if (self.pixels[x + 1][y] != lineColor):
+                        x += 1
+                        x0 = x
+                        #Revision horizontal
+                        while x <= xMax:
+                            #Si encontro pareja horizontal
+                            if (self.pixels[x][y] == lineColor):
+                                y1 = y 
+                                #Revision vertical para abajo
+                                while y1 <= 0:
+                                    y1 -= 1 
+                                    if self.pixels[x0][y1] == lineColor: 
+                                        print('hola')
+                                        break
+                                self.glPoint(x - 1, y, fillColor)
+                                self.glPoint(x0, y, background)
+                                break
+                            x += 1
+                            
     
     def glLine(self, v0, v1, color = None):
         x0 = v0.x
