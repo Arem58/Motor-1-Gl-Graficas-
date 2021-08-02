@@ -69,34 +69,67 @@ class Renderer(object):
             self.pixels[int(x)][int(y)] = color or self.curr_color
 
     def loadpol(self, pol):
+        xMin = 0
+        xMax = 0
+        yMin = 0
+        yMax = 0
         lenPol = len(pol)
         for i in range(lenPol):
             x0 = pol[i][0]
             y0 = pol[i][1]
             x1 = pol[(i + 1) % lenPol][0]
             y1 = pol[(i + 1) % lenPol][1]
+            if xMin == 0 and yMin == 0:
+                xMin, yMin = x0, y0
+            if (x0 < xMin):
+                xMin = x0
+            if (x1 > xMax):
+                xMax = x1
+            if (y0 < yMin):
+                yMin = y0
+            if (y1 > yMax):
+                yMax = y1
             self.glLine(V2(x0, y0), V2(x1, y1))
+        print(xMin, xMax, yMin, yMax)
 
     def fillPol(self, background, lineColor, fillColor, xMin, xMax, yMin, yMax):
         for y in range(self.height):
             for x in range(self.width):
-                if (self.pixels[x][y] == lineColor):
-                    if (self.pixels[x + 1][y] != lineColor):
+                if self.pixels[x][y] == lineColor:
+                    if self.pixels[x + 1][y] != lineColor:
                         x += 1
                         x0 = x
                         #Revision horizontal
                         while x <= xMax:
                             #Si encontro pareja horizontal
-                            if (self.pixels[x][y] == lineColor):
-                                y1 = y 
-                                #Revision vertical para abajo
-                                while y1 <= 0:
-                                    y1 -= 1 
-                                    if self.pixels[x0][y1] == lineColor: 
-                                        print('hola')
-                                        break
-                                self.glPoint(x - 1, y, fillColor)
-                                self.glPoint(x0, y, background)
+                            if self.pixels[x][y] == lineColor:
+                                if y not in [yMax, yMin]:
+                                    verificador1 = False
+                                    verificador2 = False
+                                    pintar = False
+                                    y1 = y2 = y 
+                                    #Revision vertical para abajo
+                                    while True:
+                                        if y1 != yMin:
+                                            y1 -= 1 
+                                            if self.pixels[x0][y1] == lineColor:
+                                                verificador1 = True
+
+                                        if y2 != yMax:
+                                            y2 += 1
+                                            if self.pixels[x0][y2] == lineColor:
+                                                verificador2 = True
+                                        
+                                        if verificador2 != True and verificador1 != True:
+                                            if y1 == yMin and y2 == yMax:
+                                                break
+                                        elif verificador2 == True and verificador1 == True:
+                                            pintar = True
+                                            break
+                                    if pintar:
+                                        #self.glPoint(x - 1, y, fillColor)
+                                        #self.glPoint(x0, y, background)
+                                        self.glLine(V2(x0, y), V2(x-1, y), fillColor)
                                 break
                             x += 1
                             

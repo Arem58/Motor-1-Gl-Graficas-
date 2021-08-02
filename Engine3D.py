@@ -1,7 +1,7 @@
 from gl import Renderer, V2, color
 
-width = 52
-height = 52
+width = 960
+height = 540
 
 rend = Renderer(width, height)
 
@@ -19,23 +19,27 @@ rend = Renderer(width, height)
 #rend.loadpol(pol3)
 #rend.loadpol(pol4)
 
-
-rend.glLine(V2(10, 10), V2(10, 40))
-rend.glLine(V2(15, 10), V2(15, 40))
-rend.glLine(V2(20, 10), V2(20, 40))
-rend.glLine(V2(25, 10), V2(25, 40))
-rend.glLine(V2(40, 10), V2(40, 40))
-rend.glLine(V2(35, 10), V2(35, 40))
-rend.glLine(V2(30, 10), V2(30, 40))
+rend.glLine(V2(10, 10), V2(40, 10))
+rend.glLine(V2(10, 10), V2(25, 40))
+rend.glLine(V2(25, 40), V2(40, 10))
 
 
-rend.glLine(V2(10, 10), V2(15, 10))
-rend.glLine(V2(20, 10), V2(25, 10))
-rend.glLine(V2(30, 10), V2(35, 10))
-
-rend.glLine(V2(10, 40), V2(15, 40))
-rend.glLine(V2(20, 40), V2(25, 40))
-rend.glLine(V2(30, 40), V2(35, 40))
+#rend.glLine(V2(10, 10), V2(10, 40))
+#rend.glLine(V2(15, 10), V2(15, 40))
+#rend.glLine(V2(20, 10), V2(20, 40))
+#rend.glLine(V2(25, 10), V2(25, 40))
+#rend.glLine(V2(40, 10), V2(40, 40))
+#rend.glLine(V2(35, 10), V2(35, 40))
+#rend.glLine(V2(30, 10), V2(30, 40))
+#
+#
+#rend.glLine(V2(10, 10), V2(15, 10))
+#rend.glLine(V2(20, 10), V2(25, 10))
+#rend.glLine(V2(30, 10), V2(35, 10))
+#
+#rend.glLine(V2(10, 40), V2(15, 40))
+#rend.glLine(V2(20, 40), V2(25, 40))
+#rend.glLine(V2(30, 40), V2(35, 40))
 rend.fillPol(color(1, 0, 0), color(1, 1, 1), color(0, 1, 0), 0, 40, 10, 40)
 
 
