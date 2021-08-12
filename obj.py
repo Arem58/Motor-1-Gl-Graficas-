@@ -24,7 +24,7 @@ class Obj(object):
 
                 if prefix == 'v': #Vertices
                     self.vertices.append(list(map(float, value.split(' '))))
-                elif prefix == ' vt': #Texture Coordinates
+                elif prefix == 'vt': #Texture Coordinates
                     self.texcoords.append(list(map(float, value.split(' '))))
                 elif prefix == 'vn': #Normales
                     self.normals.append(list(map(float, value.split(' '))))
@@ -32,24 +32,26 @@ class Obj(object):
                     self.faces.append( [ list(map(int, vert.split('/'))) for vert in value.split(' ') ] )
 
 class Texture(object):
-    def __init(self, filename):
+    def __init__(self, filename):
         self.filename = filename
         self.read()
 
     def read(self):
         with open(self.filename, "rb") as image:
             image.seek(10)
-            headerSize = struct.struct.unpack('=l', image.read(4))[0]
+            headerSize = struct.unpack('=l', image.read(4))[0]
 
             image.seek(14 + 4)
             self.width = struct.unpack('=l', image.read(4))[0]
             self.height = struct.unpack('=l', image.read(4))[0]
+
+            image.seek(headerSize)
             
             self.pixels = []
 
             for x in range(self.width):
                 self.pixels.append([])
-                for y in range(self.heigth):
+                for y in range(self.height):
                     b = ord(image.read(1)) / 255
                     g = ord(image.read(1)) / 255
                     r = ord(image.read(1)) / 255
@@ -60,10 +62,10 @@ class Texture(object):
 
         if 0 <= tx < 1 and 0 <= ty < 1:
 
-            x = round(tx * self.witdh)
+            x = round(tx * self.width)
             y = round(ty * self.height)
 
-            return self.pixels[x][y]
+            return self.pixels[y][x]
         
         else: 
             

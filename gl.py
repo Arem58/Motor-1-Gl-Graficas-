@@ -2,7 +2,6 @@ import struct
 from collections import namedtuple
 from obj import Obj
 import random
-import numpy as np
 
 V2 = namedtuple('Point2', ['x', 'y'])
 V3 = namedtuple('Point3', ['x', 'y', 'z'])
@@ -107,7 +106,7 @@ class Renderer(object):
         #Crea una lista 2D de pixeles y a cada valor le asigna 3 bytes de color
         self.pixels = [[ self.clear_color for y in range(self.height)] for x in range(self.width)]
 
-        self.zbuffer = [[ -float('inf') for y in range(self.height)] for x in range(self.width)]
+        self.zbuffer = [[ -float('inf')for y in range(self.height)] for x in range(self.width)]
 
     def glColor(self, r, g, b):
         self.curr_color = SetColor(r, g, b)
@@ -286,7 +285,7 @@ class Renderer(object):
     def glLoadModel(self, filename, texture = None, translate = V3(0.0, 0.0, 0.0), scale = V3(1.0, 1.0, 1.0)):
         model = Obj(filename)
 
-        light = V3(0, 0, 1)
+        light = V3(1, 1, 1)
 
         for face in model.faces:
             vertCount = len(face)
@@ -309,7 +308,7 @@ class Renderer(object):
                 d = self.glTransform(vert3, translate, scale)
 
             _cor = SetColor(random.random(), random.random(), random.random())
-            normal = norm(cross(sub(a, b), sub(b, c)))
+            normal = norm(cross(sub(b, a), sub(c, a)))
             intensity = dot(normal, light)
 
             if intensity > 1:
@@ -317,12 +316,9 @@ class Renderer(object):
             elif intensity < 0:
                 intensity = 0
 
-            if texture: 
-                pass 
-            else:
-                self.glTriangle_bc(a, b, c, textCoords=(vt0, vt1, vt2),texture=texture, intensity=intensity)
-                if vertCount == 4:
-                    self.glTriangle_bc(a, c, d, textCoords=(vt0, vt2, vt3), texture=texture, intensity=intensity) 
+            self.glTriangle_bc(a, b, c, textCoords=(vt0, vt1, vt2),texture=texture, intensity=intensity)
+            if vertCount == 4:
+                self.glTriangle_bc(a, c, d, textCoords=(vt0, vt2, vt3), texture=texture, intensity=intensity) 
 
             #x0 = round(vert0[0] * scale.x + translate.x)
     
@@ -406,10 +402,12 @@ class Renderer(object):
                         tA, tB, tC = textCoords
                         tx = tA[0] * u + tB[0] * v + tC[0] * w
                         ty = tA[1] * u + tB[1] * v + tC[1] * w
-                        texColor = texture.getColor(tx, ty)
+                        color = texture.getColor(tx, ty)
                     
                     if z > self.zbuffer[x][y]:
-                        self.glPoint(x, y, color)
+                        self.glPoint(x, y, SetColor( color[2] * intensity / 255,
+                                                     color[1] * intensity / 255,
+                                                     color[0] * intensity / 255,))
                         self.zbuffer[x][y] = z
 
 
