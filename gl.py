@@ -316,11 +316,13 @@ class Renderer(object):
                 intensity = 1
             elif intensity < 0:
                 intensity = 0
-            
-            self.glTriangle_bc(a, b, c, SetColor(intensity, intensity, intensity))
 
-            if vertCount == 4:
-                self.glTriangle_bc(a, c, d, SetColor(intensity, intensity, intensity)) 
+            if texture: 
+                pass 
+            else:
+                self.glTriangle_bc(a, b, c, textCoords=(vt0, vt1, vt2),texture=texture, intensity=intensity)
+                if vertCount == 4:
+                    self.glTriangle_bc(a, c, d, textCoords=(vt0, vt2, vt3), texture=texture, intensity=intensity) 
 
             #x0 = round(vert0[0] * scale.x + translate.x)
     
@@ -387,7 +389,7 @@ class Renderer(object):
             except:
                 pass
            
-    def glTriangle_bc(self, A, B, C, color = None):
+    def glTriangle_bc(self, A, B, C, textCoords = (), texture = None, color = None, intensity = 1):
         #Bounding Box
         minX = round(min(A.x, B.x, C.x))
         minY = round(min(A.y, B.y, C.y))
@@ -399,7 +401,13 @@ class Renderer(object):
                 u, v, w = baryCoords(A, B, C, V2(x, y))
                 if u >= 0 and v >= 0 and w >= 0:
                     z = A.z * u + B.z * v + C.z * w
-
+                    
+                    if texture:
+                        tA, tB, tC = textCoords
+                        tx = tA[0] * u + tB[0] * v + tC[0] * w
+                        ty = tA[1] * u + tB[1] * v + tC[1] * w
+                        texColor = texture.getColor(tx, ty)
+                    
                     if z > self.zbuffer[x][y]:
                         self.glPoint(x, y, color)
                         self.zbuffer[x][y] = z

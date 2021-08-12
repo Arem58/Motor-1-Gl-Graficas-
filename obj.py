@@ -1,8 +1,8 @@
 #Carga un archivo obj
-from random import random
 import struct
 
-from numpy.lib.type_check import imag
+def _color(r, g, b):
+    return bytes([int(b*255), int(g*255), int(r*255)])
 
 class Obj(object):
     def __init__(self, filename):
@@ -31,43 +31,40 @@ class Obj(object):
                 elif prefix == 'f': #Caras
                     self.faces.append( [ list(map(int, vert.split('/'))) for vert in value.split(' ') ] )
 
-def _color(r, g, b):
-    return bytes([int(b*255), int(g*255), int(r*255)])
-
 class Texture(object):
     def __init(self, filename):
         self.filename = filename
         self.read()
 
-        def read(self):
-            with open(self.filename, "rb") as image:
-                image.seek(10)
-                headerSize = struct.struct.unpack('=l', image.read(4))[0]
+    def read(self):
+        with open(self.filename, "rb") as image:
+            image.seek(10)
+            headerSize = struct.struct.unpack('=l', image.read(4))[0]
 
-                image.seek(14 + 4)
-                self.width = struct.unpack('=l', image.read(4))[0]
-                self.height = struct.unpack('=l', image.read(4))[0]
-                
-                self.pixels = []
+            image.seek(14 + 4)
+            self.width = struct.unpack('=l', image.read(4))[0]
+            self.height = struct.unpack('=l', image.read(4))[0]
+            
+            self.pixels = []
 
-                for x in range(self.width):
-                    self.pixels.append([])
-                    for y in range(self.heigth):
-                        b = ord(image.read(1)) / 255
-                        g = ord(image.read(1)) / 255
-                        r = ord(image.read(1)) / 255
+            for x in range(self.width):
+                self.pixels.append([])
+                for y in range(self.heigth):
+                    b = ord(image.read(1)) / 255
+                    g = ord(image.read(1)) / 255
+                    r = ord(image.read(1)) / 255
 
-                        self.pixels[x].append(_color(r, g, b))
+                    self.pixels[x].append(_color(r, g, b))
 
-def getColor(self, tx, ty):
+    def getColor(self, tx, ty):
 
-    if 0 <= tx < 1 and 0 <= ty < 1:
+        if 0 <= tx < 1 and 0 <= ty < 1:
 
-        x = round(tx * self.witdh)
-        y = round(ty * self.height)
+            x = round(tx * self.witdh)
+            y = round(ty * self.height)
 
-        return self.pixels[x][y]
-    
-    else: 
+            return self.pixels[x][y]
         
-        return _color(0, 0, 0)
+        else: 
+            
+            return _color(0, 0, 0)
