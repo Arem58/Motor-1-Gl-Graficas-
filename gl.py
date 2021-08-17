@@ -2,9 +2,12 @@ import struct
 from collections import namedtuple
 from obj import Obj
 import random
+import numpy as np
+from math import cos, sin, pi
 
 V2 = namedtuple('Point2', ['x', 'y'])
 V3 = namedtuple('Point3', ['x', 'y', 'z'])
+V4 = namedtuple('Point4', ['x', 'y', 'z', 'w'])
 
 def char(c):
     # 1 byte
@@ -67,6 +70,74 @@ def baryCoords(A, B, C, P):
         return -1, -1, -1
 
     return u, v, w
+
+def radDegrees(radianes):
+    return radianes * (180/pi)
+
+def degreesRad(grados):
+    return grados * (pi/180)
+
+#Multiplicacion de matrices
+def multyMatrix4X4 (Matrix, Matrix2):
+    matrix1Row = len(Matrix)
+    matrix1Col = len(Matrix[0])
+    newMatrix = []
+    for y in range(matrix1Col):
+        newRow = []
+        matrix2Row = 0
+        column1 = 0
+        column2 = 0
+        column3 = 0
+        column4 = 0
+        for x in range(matrix1Row):
+            column1 = (Matrix[y][x] * Matrix2[x][matrix2Row]) + column1
+            column2 = (Matrix[y][x] * Matrix2[x][matrix2Row + 1]) + column2
+            column3 = (Matrix[y][x] * Matrix2[x][matrix2Row + 2]) + column3
+            column4 = (Matrix[y][x] * Matrix2[x][matrix2Row + 3]) + column4
+        newRow.extend([column1, column2, column3, column4])
+        newMatrix.append(newRow)
+    return newMatrix
+
+def multyMatrix (Matrix, Matrix2):
+    matrix1Row = len(Matrix)
+    matrix2RowLimit = len(Matrix2[0])
+    newMatrix = []
+    for y in range(matrix1Row):
+        newRow = []
+        matrix2Row = 0
+        matrix2Col = len(Matrix2)
+        column1 = 0
+        for x in range(matrix1Row):
+            for i in range(matrix2Col):
+                #print(Matrix[y][(x+i) % matrix2Col],  Matrix2[(x+i) % matrix2Col][matrix2Row])
+                column1 = (Matrix[y][(x+i) % matrix2Col] * Matrix2[(x+i) % matrix2Col][matrix2Row]) + column1
+            #print(column1)
+            if matrix2RowLimit == 1:
+                newMatrix.append(column1)
+                break
+            matrix2Row += 1
+            newRow.append(column1)
+            column1 = 0
+        if matrix2RowLimit != 1:
+            newMatrix.append(newRow)
+    #print(newMatrix)
+    return newMatrix
+
+#Multiplicacion entre una matrix y un vector
+def multiVecMatrix(Vector, Matrix):
+    matrix1Row = len(Matrix)
+    matrixColumns = len(Matrix[0])
+    newVector = []
+    for y in range(matrix1Row):
+        newNumber = 0
+        vectorCol = 0
+        for x in range(matrixColumns):
+            #print(Matrix[y][x], Vector[vectorCol])
+            newNumber = (Matrix[y][x] * Vector[vectorCol]) + newNumber
+            vectorCol += 1
+        newVector.append(newNumber)
+    #print(newVector)
+    return(newVector)
 
 Black = SetColor(0,0,0)
 White = SetColor(1,1,1)
@@ -277,15 +348,94 @@ class Renderer(object):
                 y += 1 if y0 < y1 else -1
                 limit += 1
     
-    def glTransform(self, vertex, translate=V3(0,0,0), scale=V3(1,1,1)):
-        return V3(vertex[0] * scale.x + translate.x,
-                  vertex[1] * scale.y + translate.y,
-                  vertex[2] * scale.z + translate.z)
+    def glTransform(self, vertex, vMatrix, vMatrix2):
+        augVertex = V4(vertex[0], vertex[1], vertex[2], 1)
+        transVertex = vMatrix @ augVertex
+        transVertex2 = multiVecMatrix(augVertex, vMatrix2)
+
+        transVertex = transVertex.tolist()[0]
+
+        transVertex = V3(transVertex2[0]/transVertex2[3], 
+                         transVertex2[1]/transVertex2[3],   
+                         transVertex2[2]/transVertex2[3])
+       
+        return transVertex
+
+    def glCreateRotationMatrix(self, rotate=V3(0,0,0)):
+        pitch = degreesRad(rotate.x)
+        yaw = degreesRad(rotate.y)
+        roll = degreesRad(rotate.z)
+
+        rotationX = np.matrix([[1,0,0,0],
+                                [0,cos(pitch),-sin(pitch),0],
+                                [0,sin(pitch),cos(pitch),0],
+                                [0,0,0,1]])
+        
+        rotationY = np.matrix([[cos(yaw),0,sin(yaw),0],
+                                [0,1,0,0],
+                                [-sin(yaw),0,cos(yaw),0],
+                                [0,0,0,1]])
+
+        rotationZ = np.matrix([[cos(roll),-sin(roll),0,0],
+                                [sin(roll),cos(roll),0,0],
+                                [0,0,1,0],
+                                [0,0,0,1]])
+        
+        rotationX2 = [[1,0,0,0],
+                      [0,cos(pitch),-sin(pitch),0],
+                      [0,sin(pitch),cos(pitch),0],
+                      [0,0,0,1]]
+        
+        rotationY2 = [[cos(yaw),0,sin(yaw),0],
+                      [0,1,0,0],
+                      [-sin(yaw),0,cos(yaw),0],
+                      [0,0,0,1]]
+
+        rotationZ2 = [[cos(roll),-sin(roll),0,0],
+                      [sin(roll),cos(roll),0,0],
+                      [0,0,1,0],
+                      [0,0,0,1]]
+
+        newMatrix1 = multyMatrix(rotationX2, rotationY2)
+        newMatrix2 = multyMatrix(newMatrix1, rotationZ2)
+
+        return rotationX * rotationY * rotationZ, newMatrix2
     
-    def glLoadModel(self, filename, texture = None, translate = V3(0.0, 0.0, 0.0), scale = V3(1.0, 1.0, 1.0)):
+    def glCreateObjectMatrix(self, translate = V3(0,0,0), scale = V3(1,1,1), rotate = V3(0,0,0)):
+        translateMatrix = np.matrix([[1,0,0,translate.x],
+                                    [0,1,0,translate.y],
+                                    [0,0,1,translate.z],
+                                    [0,0,0,1]])
+
+        scaleMatrix = np.matrix([[scale.x,0,0,0],
+                                 [0,scale.y,0,0],
+                                 [0,0,scale.z,0],
+                                 [0,0,0,1]])
+
+        translateMatrix2 = [[1,0,0,translate.x],
+                                    [0,1,0,translate.y],
+                                    [0,0,1,translate.z],
+                                    [0,0,0,1]]
+
+        scaleMatrix2 = [[scale.x,0,0,0],
+                                 [0,scale.y,0,0],
+                                 [0,0,scale.z,0],
+                                 [0,0,0,1]]
+        
+        rotationMatrix, rotationMatrix2 = self.glCreateRotationMatrix(rotate)
+
+        newMatrix1 = multyMatrix(translateMatrix2, scaleMatrix2)
+        newMatrix2 = multyMatrix(newMatrix1, rotationMatrix2)
+
+        return translateMatrix * rotationMatrix * scaleMatrix, newMatrix2
+    
+    def glLoadModel(self, filename, texture = None, translate = V3(0, 0, 0), scale = V3(1, 1, 1), rotate = V3(0,0,0)):
         model = Obj(filename)
 
-        light = V3(1, 1, 1)
+        modelMatrix, modelMatrix2 = self.glCreateObjectMatrix(translate, scale, rotate)
+        #print(modelMatrix, modelMatrix2)
+
+        light = V3(0, 0, 1)
 
         for face in model.faces:
             vertCount = len(face)
@@ -298,18 +448,22 @@ class Renderer(object):
             vt1 = model.texcoords[face[1][1] - 1]
             vt2 = model.texcoords[face[2][1] - 1]
 
-            a = self.glTransform(vert0, translate, scale)
-            b = self.glTransform(vert1, translate, scale)
-            c = self.glTransform(vert2, translate, scale)
+            a = self.glTransform(vert0, modelMatrix, modelMatrix2)
+            b = self.glTransform(vert1, modelMatrix, modelMatrix2)
+            c = self.glTransform(vert2, modelMatrix, modelMatrix2)
 
             if vertCount == 4:
                 vert3 = model.vertices[face[3][0] - 1]
                 vt3 = model.texcoords[face[3][1] - 1]
-                d = self.glTransform(vert3, translate, scale)
+                d = self.glTransform(vert3, modelMatrix, modelMatrix2)
 
             _cor = SetColor(random.random(), random.random(), random.random())
             normal = norm(cross(sub(b, a), sub(c, a)))
             intensity = dot(normal, light)
+
+            #normal = np.cross(np.subtract(vert1,vert0), np.subtract(vert2,vert0))
+            #normal = normal / np.linalg.norm(normal) # la normalizamos
+            #intensity = np.dot(normal, -light)
 
             if intensity > 1:
                 intensity = 1
