@@ -16,7 +16,7 @@ modelTexture = Texture("model.bmp")
 #rend.glTriangle(V2(180, 50), V2(150, 1), V2(70, 180))
 #rend.glTriangle(V2(180, 150), V2(120, 160), V2(130, 180))
 
-rend.glLoadModel("cube.obj", modelTexture,V3(width/2, height/2-100, 0), V3(300, 300, 300), V3(0,0,0))
+rend.glLoadModel("cube.obj", modelTexture,V3(width/2, height/2-100, 0), V3(300, 300, 300), V3(0,90,0))
 
 #pol1 = [(165, 380), (185, 360), (180, 330), (207, 345), (233, 330) ,(230, 360), (250, 380), (220, 385), (205, 410), (193, 383)]
 #pol2 = [(321, 335), (288, 286), (339, 251), (374, 302)]

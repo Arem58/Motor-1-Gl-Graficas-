@@ -348,12 +348,9 @@ class Renderer(object):
                 y += 1 if y0 < y1 else -1
                 limit += 1
     
-    def glTransform(self, vertex, vMatrix, vMatrix2):
+    def glTransform(self, vertex, vMatrix):
         augVertex = V4(vertex[0], vertex[1], vertex[2], 1)
-        transVertex = vMatrix @ augVertex
-        transVertex2 = multiVecMatrix(augVertex, vMatrix2)
-
-        transVertex = transVertex.tolist()[0]
+        transVertex2 = multiVecMatrix(augVertex, vMatrix)
 
         transVertex = V3(transVertex2[0]/transVertex2[3], 
                          transVertex2[1]/transVertex2[3],   
@@ -365,21 +362,6 @@ class Renderer(object):
         pitch = degreesRad(rotate.x)
         yaw = degreesRad(rotate.y)
         roll = degreesRad(rotate.z)
-
-        rotationX = np.matrix([[1,0,0,0],
-                                [0,cos(pitch),-sin(pitch),0],
-                                [0,sin(pitch),cos(pitch),0],
-                                [0,0,0,1]])
-        
-        rotationY = np.matrix([[cos(yaw),0,sin(yaw),0],
-                                [0,1,0,0],
-                                [-sin(yaw),0,cos(yaw),0],
-                                [0,0,0,1]])
-
-        rotationZ = np.matrix([[cos(roll),-sin(roll),0,0],
-                                [sin(roll),cos(roll),0,0],
-                                [0,0,1,0],
-                                [0,0,0,1]])
         
         rotationX2 = [[1,0,0,0],
                       [0,cos(pitch),-sin(pitch),0],
@@ -399,19 +381,9 @@ class Renderer(object):
         newMatrix1 = multyMatrix(rotationX2, rotationY2)
         newMatrix2 = multyMatrix(newMatrix1, rotationZ2)
 
-        return rotationX * rotationY * rotationZ, newMatrix2
+        return newMatrix2
     
     def glCreateObjectMatrix(self, translate = V3(0,0,0), scale = V3(1,1,1), rotate = V3(0,0,0)):
-        translateMatrix = np.matrix([[1,0,0,translate.x],
-                                    [0,1,0,translate.y],
-                                    [0,0,1,translate.z],
-                                    [0,0,0,1]])
-
-        scaleMatrix = np.matrix([[scale.x,0,0,0],
-                                 [0,scale.y,0,0],
-                                 [0,0,scale.z,0],
-                                 [0,0,0,1]])
-
         translateMatrix2 = [[1,0,0,translate.x],
                                     [0,1,0,translate.y],
                                     [0,0,1,translate.z],
@@ -422,18 +394,17 @@ class Renderer(object):
                                  [0,0,scale.z,0],
                                  [0,0,0,1]]
         
-        rotationMatrix, rotationMatrix2 = self.glCreateRotationMatrix(rotate)
+        rotationMatrix = self.glCreateRotationMatrix(rotate)
 
         newMatrix1 = multyMatrix(translateMatrix2, scaleMatrix2)
-        newMatrix2 = multyMatrix(newMatrix1, rotationMatrix2)
+        newMatrix2 = multyMatrix(newMatrix1, rotationMatrix)
 
-        return translateMatrix * rotationMatrix * scaleMatrix, newMatrix2
+        return newMatrix2
     
     def glLoadModel(self, filename, texture = None, translate = V3(0, 0, 0), scale = V3(1, 1, 1), rotate = V3(0,0,0)):
         model = Obj(filename)
 
-        modelMatrix, modelMatrix2 = self.glCreateObjectMatrix(translate, scale, rotate)
-        #print(modelMatrix, modelMatrix2)
+        modelMatrix = self.glCreateObjectMatrix(translate, scale, rotate)
 
         light = V3(0, 0, 1)
 
@@ -448,14 +419,14 @@ class Renderer(object):
             vt1 = model.texcoords[face[1][1] - 1]
             vt2 = model.texcoords[face[2][1] - 1]
 
-            a = self.glTransform(vert0, modelMatrix, modelMatrix2)
-            b = self.glTransform(vert1, modelMatrix, modelMatrix2)
-            c = self.glTransform(vert2, modelMatrix, modelMatrix2)
+            a = self.glTransform(vert0, modelMatrix)
+            b = self.glTransform(vert1, modelMatrix)
+            c = self.glTransform(vert2, modelMatrix)
 
             if vertCount == 4:
                 vert3 = model.vertices[face[3][0] - 1]
                 vt3 = model.texcoords[face[3][1] - 1]
-                d = self.glTransform(vert3, modelMatrix, modelMatrix2)
+                d = self.glTransform(vert3, modelMatrix)
 
             _cor = SetColor(random.random(), random.random(), random.random())
             normal = norm(cross(sub(b, a), sub(c, a)))
