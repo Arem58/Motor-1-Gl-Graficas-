@@ -187,7 +187,7 @@ def inversa4X4(Matrix):
             if y == 0: 
                deter2 = ((-1) ** exponentT) * determinante3X3(detM)
                determinant = (Matrix[y][x] * deter2) + determinant
-               #print(Matrix[y][x] * deter)
+    print(determinant)
     Inverse = createMatrix(4, 4, cofactorList, (1/determinant))
     #print(Inverse)
     return Inverse
@@ -207,7 +207,13 @@ eje =  [[2,1,-3,2],
         [-2,1,1,4],
         [1,-2,-1,4]]
 
-inversa4X4(eje)
+eje3 =  [[1,1,0,0],
+        [0,-1,-2,0],
+        [0,0,1,-1],
+        [0,0,0,1]]
+
+inversa = inversa4X4(eje3)
+print(inversa)
 
 eje2 = [1,2,3,4,5,6,7,8,9]
 
