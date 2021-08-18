@@ -385,14 +385,14 @@ class Renderer(object):
     
     def glCreateObjectMatrix(self, translate = V3(0,0,0), scale = V3(1,1,1), rotate = V3(0,0,0)):
         translateMatrix2 = [[1,0,0,translate.x],
-                                    [0,1,0,translate.y],
-                                    [0,0,1,translate.z],
-                                    [0,0,0,1]]
+                            [0,1,0,translate.y],
+                            [0,0,1,translate.z],
+                            [0,0,0,1]]
 
         scaleMatrix2 = [[scale.x,0,0,0],
-                                 [0,scale.y,0,0],
-                                 [0,0,scale.z,0],
-                                 [0,0,0,1]]
+                        [0,scale.y,0,0],
+                        [0,0,scale.z,0],
+                        [0,0,0,1]]
         
         rotationMatrix = self.glCreateRotationMatrix(rotate)
 
