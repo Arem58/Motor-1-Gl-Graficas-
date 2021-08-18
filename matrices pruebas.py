@@ -103,6 +103,9 @@ def createMatrix(row, col, listOfLists, multi = 1):
         for j in range(col):
             
             # you need to increment through dataList here, like this:
+            if((listOfLists[row * i + j]) * multi == 0):
+                rowList.append(0)
+                continue
             rowList.append((listOfLists[row * i + j]) * multi)    
                     
         matrix.append(rowList)
@@ -212,10 +215,10 @@ eje3 =  [[1,1,0,0],
         [0,0,1,-1],
         [0,0,0,1]]
 
-inversa = inversa4X4(eje3)
-print(inversa)
+#inversa = inversa4X4(eje3)
+print((-0) * 4)
 
-eje2 = [1,2,3,4,5,6,7,8,9]
+#eje2 = [1,2,3,4,5,6,7,8,9]
 
 #createMatrix(3, 3, eje2, 2)
 
