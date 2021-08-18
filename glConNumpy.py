@@ -235,7 +235,7 @@ def inversa4X4(Matrix):
             if y == 0: 
                deter2 = ((-1) ** exponentT) * determinante3X3(detM)
                determinant = (Matrix[y][x] * deter2) + determinant
-    #print(determinant)
+    print(determinant)
     Inverse = createMatrix(4, 4, cofactorList, (1/determinant))
     #print(Inverse)
     return Inverse
@@ -262,12 +262,12 @@ class Renderer(object):
         self.vpWidth = width
         self.vpHeight = height
 
-        #self.viewPortMatrix = np.matrix([[width * 0.5,0,0,x + width*0.5],
-        #                           [0,height * 0.5,0,y + height*0.5],
-        #                           [0,0,0.5,0.5],
-        #                           [0,0,0,1]])
+        self.viewPortMatrix = np.matrix([[width * 0.5,0,0,x + width*0.5],
+                                   [0,height * 0.5,0,y + height*0.5],
+                                   [0,0,0.5,0.5],
+                                   [0,0,0,1]])
         
-        self.viewPortMatrix = [[width * 0.5,0,0,x + width*0.5],
+        self.viewPortMatrix2 = [[width * 0.5,0,0,x + width*0.5],
                                 [0,height * 0.5,0,y + height*0.5],
                                 [0,0,0.5,0.5],
                                 [0,0,0,1]]
@@ -325,7 +325,7 @@ class Renderer(object):
             if (y1 > yMax):
                 yMax = y1
             self.glLine(V2(x0, y0), V2(x1, y1))
-        #print(xMin, xMax, yMin, yMax)
+        print(xMin, xMax, yMin, yMax)
         if pintar:
             self.fillPol(xMin, xMax, yMin, yMax, SetColor(1, 1, 1), fill)
 
@@ -462,10 +462,10 @@ class Renderer(object):
                 y += 1 if y0 < y1 else -1
                 limit += 1
     
-    def glTransform(self, vertex, vMatrix):
+    def glTransform(self, vertex, vMatrix, vMatrix2):
         augVertex = V4(vertex[0], vertex[1], vertex[2], 1)
         #transVertex = vMatrix @ augVertex
-        transVertex2 = multiVecMatrix(augVertex, vMatrix)
+        transVertex2 = multiVecMatrix(augVertex, vMatrix2)
 
         #transVertex = transVertex.tolist()[0]
 
@@ -478,13 +478,13 @@ class Renderer(object):
     def glCamTransform(self, vertex):
         augVertex = V4(vertex[0], vertex[1], vertex[2], 1)
         #transVertex = self.viewPortMatrix @ self.proyectionMatrix @ self.viewMatrix @ augVertex
-        transVertex2 = multyMatrix(self.viewPortMatrix, self.proyectionMatrix)
-        transVertex3 = multyMatrix(transVertex2, self.viewMatrix)
+        transVertex2 = multyMatrix(self.viewPortMatrix2, self.proyectionMatrix2)
+        transVertex3 = multyMatrix(transVertex2, self.viewMatrix2)
         transVertex4 = multiVecMatrix(augVertex ,transVertex3)
 
         #transVertex = transVertex.tolist()[0]
         #print(transVertex)
-        #print(transVertex4)
+        print(transVertex4)
 
         transVertex4 = V3(transVertex4[0]/transVertex4[3], 
                          transVertex4[1]/transVertex4[3],   
@@ -497,20 +497,20 @@ class Renderer(object):
         yaw = degreesRad(rotate.y)
         roll = degreesRad(rotate.z)
 
-        #rotationX = np.matrix([[1,0,0,0],
-        #                        [0,cos(pitch),-sin(pitch),0],
-        #                        [0,sin(pitch),cos(pitch),0],
-        #                        [0,0,0,1]])
+        rotationX = np.matrix([[1,0,0,0],
+                                [0,cos(pitch),-sin(pitch),0],
+                                [0,sin(pitch),cos(pitch),0],
+                                [0,0,0,1]])
         
-        #rotationY = np.matrix([[cos(yaw),0,sin(yaw),0],
-        #                        [0,1,0,0],
-        #                        [-sin(yaw),0,cos(yaw),0],
-        #                        [0,0,0,1]])
+        rotationY = np.matrix([[cos(yaw),0,sin(yaw),0],
+                                [0,1,0,0],
+                                [-sin(yaw),0,cos(yaw),0],
+                                [0,0,0,1]])
 
-        #rotationZ = np.matrix([[cos(roll),-sin(roll),0,0],
-        #                        [sin(roll),cos(roll),0,0],
-        #                        [0,0,1,0],
-        #                        [0,0,0,1]])
+        rotationZ = np.matrix([[cos(roll),-sin(roll),0,0],
+                                [sin(roll),cos(roll),0,0],
+                                [0,0,1,0],
+                                [0,0,0,1]])
         
         rotationX2 = [[1,0,0,0],
                       [0,cos(pitch),-sin(pitch),0],
@@ -530,18 +530,18 @@ class Renderer(object):
         newMatrix1 = multyMatrix(rotationX2, rotationY2)
         newMatrix2 = multyMatrix(newMatrix1, rotationZ2)
 
-        return newMatrix2
+        return rotationX * rotationY * rotationZ, newMatrix2
     
     def glCreateObjectMatrix(self, translate = V3(0,0,0), scale = V3(1,1,1), rotate = V3(0,0,0)):
-        #translateMatrix = np.matrix([[1,0,0,translate.x],
-        #                            [0,1,0,translate.y],
-        #                            [0,0,1,translate.z],
-        #                            [0,0,0,1]])
+        translateMatrix = np.matrix([[1,0,0,translate.x],
+                                    [0,1,0,translate.y],
+                                    [0,0,1,translate.z],
+                                    [0,0,0,1]])
 
-        #scaleMatrix = np.matrix([[scale.x,0,0,0],
-        #                         [0,scale.y,0,0],
-        #                         [0,0,scale.z,0],
-        #                         [0,0,0,1]])
+        scaleMatrix = np.matrix([[scale.x,0,0,0],
+                                 [0,scale.y,0,0],
+                                 [0,0,scale.z,0],
+                                 [0,0,0,1]])
 
         translateMatrix2 = [[1,0,0,translate.x],
                                     [0,1,0,translate.y],
@@ -553,42 +553,30 @@ class Renderer(object):
                                  [0,0,scale.z,0],
                                  [0,0,0,1]]
         
-        rotationMatrix = self.glCreateRotationMatrix(rotate)
+        rotationMatrix, rotationMatrix2 = self.glCreateRotationMatrix(rotate)
 
         newMatrix1 = multyMatrix(translateMatrix2, scaleMatrix2)
-        newMatrix2 = multyMatrix(newMatrix1, rotationMatrix)
+        newMatrix2 = multyMatrix(newMatrix1, rotationMatrix2)
 
-        return newMatrix2
+        return translateMatrix * rotationMatrix * scaleMatrix, newMatrix2
     
     def glViewMatrix(self, translate = V3(0,0,0), rotate = V3(0,0,0)):
-        camMatrix = self.glCreateObjectMatrix(translate, V3(1,1,1), rotate)
-        #self.viewMatrix = np.linalg.inv(camMatrix)
-        self.viewMatrix = inversa4X4(camMatrix)
-        #print(self.viewMatrix)
-        #print(self.viewMatrix2)
+        camMatrix, camMatrix2 = self.glCreateObjectMatrix(translate, V3(1,1,1), rotate)
+        self.viewMatrix = np.linalg.inv(camMatrix)
+        self.viewMatrix2 = inversa4X4(camMatrix2)
+        print(self.viewMatrix)
+        print(self.viewMatrix2)
     
-    def glLookAt(self, eye, camPos = V3(0,0,0)):
-        forward = norm(sub(camPos, eye))
-        right = norm(cross(V3(0,1,0), forward))
-        up = norm(cross(forward, right))
-
-        camMatrix = [[right[0],up[0],forward[0],camPos.x],
-                     [right[1],up[1],forward[1],camPos.y],
-                     [right[2],up[2],forward[2],camPos.z],
-                     [0,0,0,1]]
-        
-        self.viewMatrix = inversa4X4(camMatrix)
-
     def glProyectionMatrix(self, n = 0.1, f = 1000, fov = 60):
         t = tan(degreesRad(fov)/2) * n
         r = t * self.vpWidth / self.vpHeight
 
-        #self.proyectionMatrix = np.matrix([[n/r,0,0,0],
-        #                                   [0,n/t,0,0],
-        #                                   [0,0,-(f + n)/(f - n),-(2* f * n)/(f - n)],
-        #                                   [0,0,-1,0],])
+        self.proyectionMatrix = np.matrix([[n/r,0,0,0],
+                                           [0,n/t,0,0],
+                                           [0,0,-(f + n)/(f - n),-(2* f * n)/(f - n)],
+                                           [0,0,-1,0],])
 
-        self.proyectionMatrix = [[n/r,0,0,0],
+        self.proyectionMatrix2 = [[n/r,0,0,0],
                                   [0,n/t,0,0],
                                   [0,0,-(f + n)/(f - n),-(2* f * n)/(f - n)],
                                   [0,0,-1,0],]
@@ -596,7 +584,8 @@ class Renderer(object):
     def glLoadModel(self, filename, texture = None, translate = V3(0, 0, 0), scale = V3(1, 1, 1), rotate = V3(0,0,0)):
         model = Obj(filename)
 
-        modelMatrix = self.glCreateObjectMatrix(translate, scale, rotate)
+        modelMatrix, modelMatrix2 = self.glCreateObjectMatrix(translate, scale, rotate)
+        #print(modelMatrix, modelMatrix2)
 
         light = V3(0, 0, 1)
 
@@ -611,14 +600,14 @@ class Renderer(object):
             vt1 = model.texcoords[face[1][1] - 1]
             vt2 = model.texcoords[face[2][1] - 1]
 
-            a = self.glTransform(vert0, modelMatrix)
-            b = self.glTransform(vert1, modelMatrix)
-            c = self.glTransform(vert2, modelMatrix)
+            a = self.glTransform(vert0, modelMatrix, modelMatrix2)
+            b = self.glTransform(vert1, modelMatrix, modelMatrix2)
+            c = self.glTransform(vert2, modelMatrix, modelMatrix2)
 
             if vertCount == 4:
                 vert3 = model.vertices[face[3][0] - 1]
                 vt3 = model.texcoords[face[3][1] - 1]
-                d = self.glTransform(vert3, modelMatrix)
+                d = self.glTransform(vert3, modelMatrix, modelMatrix2)
 
             _cor = SetColor(random.random(), random.random(), random.random())
             normal = norm(cross(sub(b, a), sub(c, a)))
