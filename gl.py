@@ -109,9 +109,7 @@ def multyMatrix (Matrix, Matrix2):
         column1 = 0
         for x in range(matrix1Row):
             for i in range(matrix2Col):
-                #print(Matrix[y][(x+i) % matrix2Col],  Matrix2[(x+i) % matrix2Col][matrix2Row])
                 column1 = (Matrix[y][(x+i) % matrix2Col] * Matrix2[(x+i) % matrix2Col][matrix2Row]) + column1
-            #print(column1)
             if matrix2RowLimit == 1:
                 newMatrix.append(column1)
                 break
@@ -120,7 +118,6 @@ def multyMatrix (Matrix, Matrix2):
             column1 = 0
         if matrix2RowLimit != 1:
             newMatrix.append(newRow)
-    #print(newMatrix)
     return newMatrix
 
 #Multiplicacion entre una matrix y un vector
@@ -132,11 +129,9 @@ def multiVecMatrix(Vector, Matrix):
         newNumber = 0
         vectorCol = 0
         for x in range(matrixColumns):
-            #print(Matrix[y][x], Vector[vectorCol])
             newNumber = (Matrix[y][x] * Vector[vectorCol]) + newNumber
             vectorCol += 1
         newVector.append(newNumber)
-    #print(newVector)
     return(newVector)
 
 #Crea matrices a partir de una lista
@@ -177,26 +172,21 @@ def determinante3X3(matrix):
         newRow = []
         for x in range(columns):
             if x == 2:
-                #print(matrix[y][x], matrix[y][(x + 1) % columns], matrix[y][(x + 2) % columns])
                 newRow.extend([matrix[y][x], matrix[y][(x + 1) % columns], matrix[y][(x + 2) % columns]])
                 break
             newRow.append(matrix[y][x])
         newMatrix.append(newRow)
-    #print(newMatrix)
     diagonal1 = 0
     diagonal2 = 0
     for x in range(columns):
         diagonal1 = (newMatrix[0][x] * newMatrix[1][x+1] * newMatrix[2][x+2]) + diagonal1
         diagonal2 = -(newMatrix[0][x+2] * newMatrix[1][x+1] * newMatrix[2][x]) + diagonal2
-        #print(newMatrix[0][x], newMatrix[1][x+1], newMatrix[2][x+2])
-        #print(newMatrix[0][x+2], newMatrix[1][x+1], newMatrix[2][x])
     determinante = diagonal1 + diagonal2
     return determinante
 
 #Obtiene la inversa de una matriz 4X4
 def inversa4X4(Matrix):
     newMatrix = transpose(Matrix)
-    #print(newMatrix)
     row = len(Matrix[0])
     column = len(Matrix)
     determinant = 0
@@ -216,8 +206,6 @@ def inversa4X4(Matrix):
                 rowCo = []
                 for k in range(column):
                     if i != y and x != k:
-                        #print("y: ",y, "i: ",i, "x: ",x, "k: ",k)
-                        #print(Matrix[i][k])
                         verificador = True
                         rowCo.append(newMatrix[i][k])
                         if y == 0:
@@ -227,17 +215,12 @@ def inversa4X4(Matrix):
                         detM.append(rowDe)
                     cofactorM.append(rowCo)
                     verificador = False
-            #print(cofactorM)
-            #print(detM)
-            #print((-1) ** exponentT)
             deter = ((-1) ** exponentT) * determinante3X3(cofactorM)
             cofactorList.append(deter)
             if y == 0: 
                deter2 = ((-1) ** exponentT) * determinante3X3(detM)
                determinant = (Matrix[y][x] * deter2) + determinant
-    #print(determinant)
     Inverse = createMatrix(4, 4, cofactorList, (1/determinant))
-    #print(Inverse)
     return Inverse
 
 Black = SetColor(0,0,0)
