@@ -1,5 +1,6 @@
 from numpy.lib.type_check import imag
 from gl import Renderer, V2, V3, SetColor
+from shaders import *
 
 from obj import Texture
 
@@ -8,23 +9,43 @@ height = 1080
 
 rend = Renderer(width, height)
 
-modelTexture = Texture("model.bmp")
+rend.active_shader = flat
 
-modelPosition = V3(0, 0, -10)
+#rend.active_texture = Texture("model.bmp")
+
+#modelPosition = V3(0, 0, -10)
+
+#-------------------------------------------------------------------------------------------------------------------------
+#Shaders
+
+rend.glLoadModel("cube.obj", 
+                  translate = V3(-3, 0, -10), 
+                  scale = V3(3, 3, 3), 
+                  rotate = V3(0 ,0 ,0))
+
+rend.active_shader = gourad
+
+rend.glLoadModel("cube.obj", 
+                  translate = V3(3, 0, -10),  
+                  scale = V3(3, 3, 3), 
+                  rotate = V3(0 ,0 ,0))
 
 #--------------------------------------------------------------------------------------------------------------------------
 
 #SR5: Transformations
 
 #Medium shot
-rend.glLookAt(modelPosition, V3(3, 1, 1))
+#rend.glLookAt(modelPosition, V3(3, 1, 1))
 
 #Low angle
 #rend.glLookAt(modelPosition, V3(0, 3, -5))
 
 #High angle
 #rend.glLookAt(modelPosition, V3(0, -3, -5))
-rend.glLoadModel("cube.obj", modelTexture, modelPosition, V3(3, 3, 3), V3(0 ,0 ,0))
+#rend.glLoadModel("cube.obj", 
+#                  translate = modelPosition, 
+#                  scale = V3(3, 3, 3), 
+#                  rotate = V3(0 ,0 ,0))
 
 #The Dutch Angle
 #rend.glLookAt(modelPosition, V3(-8, 2, -7))

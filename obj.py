@@ -62,8 +62,8 @@ class Texture(object):
 
         if 0 <= tx < 1 and 0 <= ty < 1:
 
-            x = round(tx * self.width)
-            y = round(ty * self.height)
+            x = int(tx * self.width)
+            y = int(ty * self.height)
 
             return self.pixels[y][x]
         
