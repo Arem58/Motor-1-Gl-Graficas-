@@ -35,10 +35,12 @@ class Renderer(object):
         self.curr_color = White
         self.glViewMatrix()
         self.glCreateWindow(width, height)
+        self.puntosGlobales = 0
 
+        self.normal_map = None
         self.active_texture = None
+        self.active_texture2 = None
         self.active_shader = None
-        self.directional_light = V3(0,0,1)
 
     def glCreateWindow(self, width, height):
         self.width = width
@@ -277,7 +279,6 @@ class Renderer(object):
        
         return transVertex2
 
-
     def glCamTransform(self, vertex):
         augVertex = V4(vertex[0], vertex[1], vertex[2], 1)
         #transVertex = self.viewPortMatrix @ self.proyectionMatrix @ self.viewMatrix @ augVertex
@@ -347,14 +348,14 @@ class Renderer(object):
         #                         [0,0,0,1]])
 
         translateMatrix2 = [[1,0,0,translate.x],
-                                    [0,1,0,translate.y],
-                                    [0,0,1,translate.z],
-                                    [0,0,0,1]]
+                            [0,1,0,translate.y],
+                            [0,0,1,translate.z],
+                            [0,0,0,1]]
 
         scaleMatrix2 = [[scale.x,0,0,0],
-                                 [0,scale.y,0,0],
-                                 [0,0,scale.z,0],
-                                 [0,0,0,1]]
+                        [0,scale.y,0,0],
+                        [0,0,scale.z,0],
+                        [0,0,0,1]]
         
         rotationMatrix = self.glCreateRotationMatrix(rotate)
 
@@ -367,9 +368,10 @@ class Renderer(object):
         camMatrix = self.glCreateObjectMatrix(translate, V3(1,1,1), rotate)
         #self.viewMatrix = np.linalg.inv(camMatrix)
         self.viewMatrix = inversa4X4(camMatrix)
+        self.viewMatrixGlobal = inversa4X4(camMatrix)
         #print(self.viewMatrix)
         #print(self.viewMatrix2)
-    
+
     def glLookAt(self, eye, camPos = V3(0,0,0)):
         forward = norm(sub(camPos, eye))
         right = norm(cross(V3(0,1,0), forward))
@@ -399,9 +401,18 @@ class Renderer(object):
     def glLoadModel(self, filename, translate = V3(0, 0, 0), scale = V3(1, 1, 1), rotate = V3(0,0,0)):
         model = Obj(filename)
 
-        modelMatrix = self.glCreateObjectMatrix(translate, scale, rotate)
+        Ming = [model.xMin, model.yMin, 0]
+        Maxg = [model.xMax, model.yMax, 0]
 
+        modelMatrix = self.glCreateObjectMatrix(translate, scale, rotate)
         rotationMatrix = self.glCreateRotationMatrix(rotate)
+
+        Ming = self.glTransform(Ming, modelMatrix)
+        Maxg = self.glTransform(Maxg, modelMatrix)
+        aMing = self.glCamTransform(Ming)
+        bMaxg = self.glCamTransform(Maxg)
+
+        self.puntosGlobales = [aMing.x, bMaxg.x, aMing.y, bMaxg.y]
 
         for face in model.faces:
             vertCount = len(face)
@@ -414,9 +425,9 @@ class Renderer(object):
             vt1 = model.texcoords[face[1][1] - 1]
             vt2 = model.texcoords[face[2][1] - 1]
 
-            vn0 = model.texcoords[face[0][2] - 1]
-            vn1 = model.texcoords[face[1][2] - 1]
-            vn2 = model.texcoords[face[2][2] - 1]
+            vn0 = model.normals[face[0][2] - 1]
+            vn1 = model.normals[face[1][2] - 1]
+            vn2 = model.normals[face[2][2] - 1]
 
             vn0 = self.glDirTransform(vn0, rotationMatrix)
             vn1 = self.glDirTransform(vn1, rotationMatrix)
@@ -429,7 +440,7 @@ class Renderer(object):
             if vertCount == 4:
                 vert3 = model.vertices[face[3][0] - 1]
                 vt3 = model.texcoords[face[3][1] - 1]
-                vn3 = model.texcoords[face[3][2] - 1]
+                vn3 = model.normals[face[3][2] - 1]
                 vn3 = self.glDirTransform(vn3, rotationMatrix)
                 vert3 = self.glTransform(vert3, modelMatrix)
 
@@ -527,6 +538,8 @@ class Renderer(object):
         minY = round(min(A.y, B.y, C.y))
         maxX = round(max(A.x, B.x, C.x))
         maxY = round(max(A.y, B.y, C.y))
+
+        normal = norm(cross(sub(verts[1],verts[0]), sub(verts[2],verts[0])))
  
         for x in range(minX, maxX + 1):
             for y in range(minY, maxY + 1):
@@ -537,18 +550,26 @@ class Renderer(object):
                     if 0 <= x < self.width and 0 <= y < self.height:
                         if z < self.zbuffer[x][y] and z<=1 and z >= -1:
 
+                            self.zbuffer[x][y] = z
+
+                            currentColor = self.pixels[x][y]
+
+                            locales = [x, y]
+
                             if self.active_shader:
                                 r, g, b = self.active_shader(self, 
                                                              verts = verts,
                                                              baryCoords = (u, v, w), 
                                                              textCoords = textCoords, 
                                                              normals =  normals,
+                                                             normal = normal,
+                                                             globales = self.puntosGlobales, 
+                                                             locales = locales, 
+                                                             currentColor = currentColor,
                                                              color = color or self.curr_color)
+                                self.glPoint(x,y, SetColor( r, g, b) )
                             else: 
-                                b, g, r = color or self.curr_color
-
-                            self.glPoint(x, y, SetColor(r, g, b))
-                            self.zbuffer[x][y] = z
+                                self.glPoint(x,y, SetColor( r, g, b) or self.curr_color )
 
 
 

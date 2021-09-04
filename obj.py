@@ -14,23 +14,38 @@ class Obj(object):
         self.texcoords = []
         self.normals = []
         self.faces = []
-        
+        self.xMin = 0
+        self.yMin = 0
+        self.xMax = 0
+        self.yMax = 0
+
         self.read()
 
     def read(self): 
         for line in self.lines:
             if line:
-                prefix, value = line.split(' ', 1)
+                try:
+                    prefix, value = line.split(' ', 1)
+                except:
+                    continue
 
                 if prefix == 'v': #Vertices
                     self.vertices.append(list(map(float, value.split(' '))))
+                    temporal = list(map(float, value.split(' ')))
+                    if temporal[0] > self.xMax:
+                        self.xMax = temporal[0]
+                    if temporal[0] < self.xMin:
+                        self.xMin = temporal[0]
+                    if temporal[1] > self.yMax:
+                        self.yMax = temporal[1]
+                    if temporal[1] < self.yMin:
+                        self.yMin = temporal[1]
                 elif prefix == 'vt': #Texture Coordinates
                     self.texcoords.append(list(map(float, value.split(' '))))
                 elif prefix == 'vn': #Normales
                     self.normals.append(list(map(float, value.split(' '))))
                 elif prefix == 'f': #Caras
                     self.faces.append( [ list(map(int, vert.split('/'))) for vert in value.split(' ') ] )
-
 class Texture(object):
     def __init__(self, filename):
         self.filename = filename
@@ -49,14 +64,14 @@ class Texture(object):
             
             self.pixels = []
 
-            for x in range(self.width):
+            for y in range(self.height):
                 self.pixels.append([])
-                for y in range(self.height):
+                for x in range(self.width):
                     b = ord(image.read(1)) / 255
                     g = ord(image.read(1)) / 255
                     r = ord(image.read(1)) / 255
 
-                    self.pixels[x].append(_color(r, g, b))
+                    self.pixels[y].append( _color(r,g,b) )
 
     def getColor(self, tx, ty):
 

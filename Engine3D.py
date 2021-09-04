@@ -9,26 +9,33 @@ height = 1080
 
 rend = Renderer(width, height)
 
-rend.active_shader = flat
+#rend.active_shader = flat
 
-#rend.active_texture = Texture("model.bmp")
+rend.active_texture = Texture("modelos/model.bmp")
+rend.normal_map = Texture("modelos/model_normal.bmp")
+#rend.active_texture2 = Texture("modelos/earthNight.bmp")
 
-#modelPosition = V3(0, 0, -10)
+modelPosition = V3(0, 0, -10)
+rend.directional_light = V3(0,0,1)
 
 #-------------------------------------------------------------------------------------------------------------------------
 #Shaders
 
-rend.glLoadModel("cube.obj", 
+rend.glLookAt(modelPosition, V3(0, 0, 0))
+
+rend.active_shader = normalMap 
+
+rend.glLoadModel("modelos/model.obj", 
                   translate = V3(-3, 0, -10), 
                   scale = V3(3, 3, 3), 
-                  rotate = V3(0 ,0 ,0))
+                  rotate = V3(0, 0, 0))
 
-rend.active_shader = gourad
-
-rend.glLoadModel("cube.obj", 
-                  translate = V3(3, 0, -10),  
-                  scale = V3(3, 3, 3), 
-                  rotate = V3(0 ,0 ,0))
+#rend.active_shader = phong
+#
+#rend.glLoadModel("modelos/cube.obj", 
+#                  translate = V3(3, 0, -10), 
+#                  scale = V3(3, 3, 3), 
+#                  rotate = V3(0, 0, 0))
 
 #--------------------------------------------------------------------------------------------------------------------------
 
@@ -111,6 +118,9 @@ rend.glLoadModel("cube.obj",
 #rend.glLine(V2(50, 50), V2(500, 400))
 #rend.glLine(V2(910, 50), V2(500, 400))
 #rend.glLine(V2(50, 50), V2(910, 50))
+#
+#u, v, w = baryCoords(V2(50, 50),  V2(500, 400), V2(910, 50), V2(430, 50))
+#print(u,v,w)
 
 #square
 #rend.glLine(V2(50, 50), V2(910, 50))
