@@ -532,7 +532,7 @@ def normalMap(render, **kwargs):
     tA, tB, tC = kwargs['textCoords']
     b, g, r = kwargs['color']
     nA, nB, nC = kwargs['normals']
-    
+
     b/= 255
     g/= 255
     r/= 255
@@ -567,7 +567,10 @@ def normalMap(render, **kwargs):
         deltaUV1 = sub(tB, tA)
         deltaUV2 = sub(tC, tA)
 
-        f = 1 / (deltaUV1[0] * deltaUV2[1] - deltaUV2[0] * deltaUV1[1])
+        try:
+            f = 1 / (deltaUV1[0] * deltaUV2[1] - deltaUV2[0] * deltaUV1[1])
+        except:
+            f = 0.00000000000000000001
 
         tangente = V3(f * (deltaUV2[1] * edge1[0] - deltaUV1[1] * edge2[0]),
                       f * (deltaUV2[1] * edge1[1] - deltaUV1[1] * edge2[1]),
