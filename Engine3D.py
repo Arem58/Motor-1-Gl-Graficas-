@@ -23,13 +23,15 @@ rend.directional_light = V3(0,0,1)
 
 rend.glLookAt(modelPosition, V3(0, 0, 0))
 
-rend.active_shader = normalMap 
+rend.active_shader = normalMap
+rend.glLoadModel("modelos/model.obj",
+                 translate = V3(-3, 0, -10),
+                 scale = V3(3,3,3))
 
-rend.glLoadModel("modelos/model.obj", 
-                  translate = V3(-3, 0, -10), 
-                  scale = V3(3, 3, 3), 
-                  rotate = V3(0, 0, 0))
-
+rend.active_shader = phong
+rend.glLoadModel("modelos/model.obj",
+                 translate = V3(3, 0, -10),
+                 scale = V3(3,3,3))
 #rend.active_shader = phong
 #
 #rend.glLoadModel("modelos/cube.obj", 

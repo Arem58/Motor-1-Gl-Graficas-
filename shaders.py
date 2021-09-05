@@ -532,7 +532,7 @@ def normalMap(render, **kwargs):
     tA, tB, tC = kwargs['textCoords']
     b, g, r = kwargs['color']
     nA, nB, nC = kwargs['normals']
-
+    
     b/= 255
     g/= 255
     r/= 255
@@ -556,8 +556,8 @@ def normalMap(render, **kwargs):
     if render.normal_map:
         texNormal = render.normal_map.getColor(tx, ty)
         texNormal = V3((texNormal[2]/255) * 2 - 1, 
-                            (texNormal[1]/255) * 2 - 1, 
-                            (texNormal[0]/255) * 2 - 1)
+                       (texNormal[1]/255) * 2 - 1, 
+                       (texNormal[0]/255) * 2 - 1)
 
         edge1 = sub(B, A)
         edge2 = sub(C, A)
@@ -570,8 +570,8 @@ def normalMap(render, **kwargs):
         f = 1 / (deltaUV1[0] * deltaUV2[1] - deltaUV2[0] * deltaUV1[1])
 
         tangente = V3(f * (deltaUV2[1] * edge1[0] - deltaUV1[1] * edge2[0]),
-                            f * (deltaUV2[1] * edge1[1] - deltaUV1[1] * edge2[1]),
-                            f * (deltaUV2[1] * edge1[2] - deltaUV1[1] * edge2[2]))
+                      f * (deltaUV2[1] * edge1[1] - deltaUV1[1] * edge2[1]),
+                      f * (deltaUV2[1] * edge1[2] - deltaUV1[1] * edge2[2]))
 
         bitangent = cross(normal, tangente)
 
