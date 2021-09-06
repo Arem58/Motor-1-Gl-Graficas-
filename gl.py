@@ -88,7 +88,7 @@ class Renderer(object):
 
     def glClearBackground(self):
         if self.background:
-            for x in range(self.vpX, self.vpX, + self.vpWidth):
+            for x in range(self.vpX, self.vpX + self.vpWidth):
                 for y in range(self.vpY, self.vpY  + self.vpHeight):
                     
                     tx = (x - self.vpX)/self.vpWidth
@@ -376,10 +376,9 @@ class Renderer(object):
         return newMatrix2
     
     def glViewMatrix(self, translate = V3(0,0,0), rotate = V3(0,0,0)):
-        camMatrix = self.glCreateObjectMatrix(translate, V3(1,1,1), rotate)
+        self.camMatrix = self.glCreateObjectMatrix(translate, V3(1,1,1), rotate)
         #self.viewMatrix = np.linalg.inv(camMatrix)
-        self.viewMatrix = inversa4X4(camMatrix)
-        self.viewMatrixGlobal = inversa4X4(camMatrix)
+        self.viewMatrix = inversa4X4(self.camMatrix)
         #print(self.viewMatrix)
         #print(self.viewMatrix2)
 

@@ -602,3 +602,55 @@ def normalMap(render, **kwargs):
     else:
         return 0,0,0
 
+def glow(render, **kwargs):
+    u, v, w = kwargs['baryCoords']
+    tA, tB, tC = kwargs['textCoords']
+    b, g, r = kwargs['color']
+    nA, nB, nC = kwargs['normals']
+
+    b/= 255
+    g/= 255
+    r/= 255
+
+    if render.active_texture:
+        tx = tA[0] * u + tB[0] * v + tC[0] * w
+        ty = tA[1] * u + tB[1] * v + tC[1] * w
+
+        texColor = render.active_texture.getColor(tx, ty)
+
+        b *= texColor[0]/255
+        g *= texColor[1]/255
+        r *= texColor[2]/255
+
+    nX = nA[0] * u + nB[0] * v + nC[0] * w
+    nY = nA[1] * u + nB[1] * v + nC[1] * w
+    nZ = nA[2] * u + nB[2] * v + nC[2] * w
+
+    normal = V3(nX, nY, nZ)
+
+    intensity = dot(normal, render.directional_light)
+
+    if intensity <= 0:
+        intensity = 0
+
+    b*= intensity
+    g*= intensity
+    r*= intensity
+
+    camForward = V3(render.camMatrix[0][2],
+                    render.camMatrix[1][2],
+                    render.camMatrix[2][2])
+
+    glowAmount = 1 - dot(normal, camForward)
+
+    glowColor = [0, 1, 0]
+
+    r += glowColor[0] * glowAmount
+    g += glowColor[1] * glowAmount
+    b += glowColor[2] * glowAmount
+
+    if r > 1 : r = 1
+    if g > 1 : g = 1
+    if b > 1 : b = 1
+
+    return r, g, b
