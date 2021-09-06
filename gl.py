@@ -35,8 +35,9 @@ class Renderer(object):
         self.curr_color = White
         self.glViewMatrix()
         self.glCreateWindow(width, height)
-        self.puntosGlobales = 0
+        self.puntosGlobales = None
 
+        self.background = None
         self.normal_map = None
         self.active_texture = None
         self.active_texture2 = None
@@ -84,6 +85,16 @@ class Renderer(object):
         self.pixels = [[ self.clear_color for y in range(self.height)] for x in range(self.width)]
 
         self.zbuffer = [[ float('inf')for y in range(self.height)] for x in range(self.width)]
+
+    def glClearBackground(self):
+        if self.background:
+            for x in range(self.vpX, self.vpX, + self.vpWidth):
+                for y in range(self.vpY, self.vpY  + self.vpHeight):
+                    
+                    tx = (x - self.vpX)/self.vpWidth
+                    ty = (y - self.vpY)/self.vpHeight
+
+                    self.glPoint(x, y, self.background.getColor(tx, ty))
 
     def glColor(self, r, g, b):
         self.curr_color = SetColor(r, g, b)

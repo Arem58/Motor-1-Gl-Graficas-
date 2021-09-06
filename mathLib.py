@@ -11,6 +11,10 @@ def dot(v0, v1):
   
   return v0.x * v1.x + v0.y * v1.y + v0.z * v1.z
 
+def mul(v0, k):
+  
+  return V3(v0.x * k, v0.y * k, v0.z *k)
+
 def cross(v0, v1):
   
   return V3(

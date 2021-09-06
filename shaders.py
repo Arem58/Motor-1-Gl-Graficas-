@@ -1,3 +1,4 @@
+from math import tan
 from mathLib import *
 from gl import SetColor
 import random
@@ -572,19 +573,21 @@ def normalMap(render, **kwargs):
         except:
             f = 0.00000000000000000001
 
-        tangente = V3(f * (deltaUV2[1] * edge1[0] - deltaUV1[1] * edge2[0]),
-                      f * (deltaUV2[1] * edge1[1] - deltaUV1[1] * edge2[1]),
-                      f * (deltaUV2[1] * edge1[2] - deltaUV1[1] * edge2[2]))
+        tangente = norm(V3(f * (deltaUV2[1] * edge1[0] - deltaUV1[1] * edge2[0]),
+                           f * (deltaUV2[1] * edge1[1] - deltaUV1[1] * edge2[1]),
+                           f * (deltaUV2[1] * edge1[2] - deltaUV1[1] * edge2[2])))
+        
+        tangente = norm(sub(tangente, mul(normal, dot(tangente, normal))))
 
-        bitangent = cross(normal, tangente)
+        bitangent = norm(cross(normal, tangente))
 
         tangentMatrix = [[tangente[0],bitangent[0],normal[0]], 
                          [tangente[1],bitangent[1],normal[1]], 
                          [tangente[2],bitangent[2],normal[2]]]
-        dirLight = V3(render.directional_light[0], render.directional_light[1], render.directional_light[2])
-        dirLight = multiVecMatrix(dirLight, tangentMatrix)
-        dirLight = norm(V3(dirLight[0], dirLight[1], dirLight[2]))
 
+        texNormal = multiVecMatrix(texNormal, tangentMatrix)
+        texNormal = norm(V3(texNormal[0], texNormal[1], texNormal[2]))
+        dirLight = V3(render.directional_light[0], render.directional_light[1], render.directional_light[2])
         intensity = dot(texNormal, dirLight)
 
     else: 

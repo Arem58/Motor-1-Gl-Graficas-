@@ -9,7 +9,8 @@ height = 1080
 
 rend = Renderer(width, height)
 
-#rend.active_shader = flat
+rend.background = Texture("modelos/fondo.bmp")
+rend.glClearBackground()
 
 rend.active_texture = Texture("modelos/model.bmp")
 rend.normal_map = Texture("modelos/model_normal.bmp")
