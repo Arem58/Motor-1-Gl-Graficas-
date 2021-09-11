@@ -24,399 +24,372 @@ rend.glLookAt(modelPosition, V3(0, 10, 0))
 
 #Cebolla------------------------------------------
 rend.active_shader = thermal
-rend.glLoadModel("modelos/cebolla.obj",
-                 translate = V3(10, -1, -9.1),
+rend.glLoadModel("modelos/olla.obj",
+                 translate = V3(4, 3, -17.4),
+                 scale = V3(1,0.75,1), 
+                 rotate = V3(25, 0, 0))
+
+#Platos-------------------------------------------
+rend.active_shader = flat
+rend.glLoadModel("modelos/plato.obj",
+                 translate = V3(3.95, -3.65, -3.8),
+                 scale = V3(0.7,0.7,0.7), 
+                 rotate = V3(25, 180, 0))
+
+rend.glLoadModel("modelos/plato.obj",
+                 translate = V3(5.95, -3.65, -3.8),
+                 scale = V3(0.7,0.7,0.7), 
+                 rotate = V3(25, 180, 0))
+
+rend.active_texture = Texture("modelos/maceta.bmp")
+#Tabla y cuchillo---------------------------------
+rend.glLoadModel("modelos/tabla.obj",
+                 translate = V3(-2, -2.85, -5.45),
+                 scale = V3(3,3,3), 
+                 rotate = V3(25, 90, 0))
+
+rend.glLoadModel("modelos/tabla.obj",
+                 translate = V3(-6, -2.85, -5.45),
+                 scale = V3(3,3,3), 
+                 rotate = V3(25, 90, 0))
+
+#Mesas-----------------------------------------------
+#Primera fila
+rend.active_shader = phong
+rend.glLoadModel("modelos/mesa.obj",
+                 translate = V3(0, 2, -18),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 0, 0))
+
+rend.glLoadModel("modelos/mesa.obj",
+                 translate = V3(2, 2, -18),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 0, 0))
+
+rend.glLoadModel("modelos/mesa.obj",
+                 translate = V3(6, 2, -18),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 0, 0))
+
+rend.glLoadModel("modelos/mesa.obj",
+                 translate = V3(8, 2, -18),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 0, 0))
+
+rend.glLoadModel("modelos/mesaEs.obj",
+                 translate = V3(10, 2, -18),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 0, 0))
+
+rend.glLoadModel("modelos/mesa.obj",
+                 translate = V3(-2, 2, -18),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 0, 0))
+
+rend.glLoadModel("modelos/mesa.obj",
+                 translate = V3(-4, 2, -18),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 0, 0))
+
+rend.glLoadModel("modelos/alimentos.obj",
+                 translate = V3(-0.75, 2, -18),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 0, 0))
+
+rend.glLoadModel("modelos/mesa.obj",
+                 translate = V3(-8, 2, -18),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 0, 0))
+
+rend.glLoadModel("modelos/mesaEs.obj",
+                 translate = V3(-10, 2, -18),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 90, 0))
+
+#Fila izquierda
+rend.active_shader = combinacionDeShaders
+rend.glLoadModel("modelos/mesa.obj",
+                 translate = V3(-10, 1.25, -16.4),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 90, 0))
+
+rend.glLoadModel("modelos/mesa.obj",
+                 translate = V3(-10, 0.4, -14.6),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 90, 0))
+
+rend.glLoadModel("modelos/mesa.obj",
+                 translate = V3(-10, -0.35, -13),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 90, 0))
+
+rend.glLoadModel("modelos/estacionP.obj",
+                 translate = V3(-10, -1.18, -11.21),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 90, 0))
+
+#Fila Abajo
+rend.active_shader = gradientV    
+rend.glLoadModel("modelos/mesaEs.obj",
+                 translate = V3(-10, -3.7, -5.85),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 180, 0))
+
+rend.glLoadModel("modelos/mesa.obj",
+                 translate = V3(-8, -3.7, -5.85),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 180, 0))
+
+rend.glLoadModel("modelos/mesa.obj",
+                 translate = V3(-6, -3.7, -5.85),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 180, 0))
+
+rend.glLoadModel("modelos/mesa.obj",
+                 translate = V3(-4, -3.7, -5.85),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 180, 0))
+
+rend.glLoadModel("modelos/mesa.obj",
+                 translate = V3(-2, -3.7, -5.85),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 180, 0))
+
+rend.glLoadModel("modelos/mesa.obj",
+                 translate = V3(0, -3.7, -5.85),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 180, 0))
+
+rend.glLoadModel("modelos/mesa.obj",
+                 translate = V3(2, -3.7, -5.85),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 180, 0))
+
+rend.glLoadModel("modelos/mesa.obj",
+                 translate = V3(4, -3.7, -5.85),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 180, 0))
+
+rend.glLoadModel("modelos/mesa.obj",
+                 translate = V3(6, -3.7, -5.85),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 180, 0))
+
+rend.glLoadModel("modelos/mesa.obj",
+                 translate = V3(8, -3.7, -5.85),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 180, 0))
+
+rend.glLoadModel("modelos/mesaEs.obj",
+                 translate = V3(10, -3.7, -5.85),
                  scale = V3(1,1,1), 
                  rotate = V3(25, 270, 0))
 
-#Extinguidor======================================
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/extinguidor.obj",
-#                 translate = V3(10, 2.1, -15.9),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 270, 0))
-
-#Platos-------------------------------------------
-#rend.active_shader = flat
-#rend.glLoadModel("modelos/plato.obj",
-#                 translate = V3(3.95, -3.65, -3.8),
-#                 scale = V3(0.7,0.7,0.7), 
-#                 rotate = V3(25, 180, 0))
-#
-#rend.active_shader = flat
-#rend.glLoadModel("modelos/plato.obj",
-#                 translate = V3(5.95, -3.65, -3.8),
-#                 scale = V3(0.7,0.7,0.7), 
-#                 rotate = V3(25, 180, 0))
-
-#Mesa de comida===================================
-#rend.active_shader = flat
-#rend.glLoadModel("modelos/mesaComer.obj",
-#                 translate = V3(8, 4, -20),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 90, 0))
-#
-#rend.active_shader = flat
-#rend.glLoadModel("modelos/mesaComer.obj",
-#                 translate = V3(-8, 4, -20),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 90, 0))
-
-#Tabla y cuchillo---------------------------------
-#rend.active_shader = flat
-#rend.glLoadModel("modelos/tabla.obj",
-#                 translate = V3(-2, -2.85, -5.45),
-#                 scale = V3(3,3,3), 
-#                 rotate = V3(25, 90, 0))
-#
-#rend.active_shader = flat
-#rend.glLoadModel("modelos/cuchillo.obj",
-#                 translate = V3(-2, -2.7, -5.4),
-#                 scale = V3(0.25,0.25,0.25), 
-#                 rotate = V3(25, -45, 90))
-#
-#rend.active_shader = flat
-#rend.glLoadModel("modelos/tabla.obj",
-#                 translate = V3(-6, -2.85, -5.45),
-#                 scale = V3(3,3,3), 
-#                 rotate = V3(25, 90, 0))
-#
-#rend.active_shader = flat
-#rend.glLoadModel("modelos/cuchillo.obj",
-#                 translate = V3(-6, -2.7, -5.4),
-#                 scale = V3(0.25,0.25,0.25), 
-#                 rotate = V3(25, -45, 90))
-#
-#rend.active_shader = flat
-#rend.glLoadModel("modelos/cebollaT.obj",
-#                 translate = V3(-6, -2.7, -5.4),
-#                 scale = V3(0.7,0.7,0.7), 
-#                 rotate = V3(25, 270, 0))
-
-#Primera fila
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesa.obj",
-#                 translate = V3(0, 2, -18),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 0, 0))
-#
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesa.obj",
-#                 translate = V3(2, 2, -18),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 0, 0))
-
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/estufa.obj",
-#                 translate = V3(4, 2, -18),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 0, 0))
-
-#Olla------------------------------------------
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/olla.obj",
-#                 translate = V3(4, 3, -17.4),
-#                 scale = V3(1,0.75,1), 
-#                 rotate = V3(25, 0, 0))
-
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesa.obj",
-#                 translate = V3(6, 2, -18),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 0, 0))
-#
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesa.obj",
-#                 translate = V3(8, 2, -18),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 0, 0))
-#
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesaEs.obj",
-#                 translate = V3(10, 2, -18),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 0, 0))
-#
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesa.obj",
-#                 translate = V3(-2, 2, -18),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 0, 0))
-#
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesa.obj",
-#                 translate = V3(-4, 2, -18),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 0, 0))
-#
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/alimentos.obj",
-#                 translate = V3(-0.75, 2, -18),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 0, 0))
-#
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesa.obj",
-#                 translate = V3(-8, 2, -18),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 0, 0))
-#
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesaEs.obj",
-#                 translate = V3(-10, 2, -18),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 90, 0))
-
-#Fila izquierda
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesa.obj",
-#                 translate = V3(-10, 1.25, -16.4),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 90, 0))
-#
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesa.obj",
-#                 translate = V3(-10, 0.4, -14.6),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 90, 0))
-#
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesa.obj",
-#                 translate = V3(-10, -0.35, -13),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 90, 0))
-#
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/estacionP.obj",
-#                 translate = V3(-10, -1.18, -11.21),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 90, 0))
-
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/estacionE.obj",
-#                 translate = V3(-10, -2.49, -8.6),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 0, 0))
-#
-#rend.active_shader = thermal    
-#rend.glLoadModel("modelos/mesaEs.obj",
-#                 translate = V3(-10, -3.7, -5.85),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 180, 0))
-
-#Fila Abajo
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesa.obj",
-#                 translate = V3(-8, -3.7, -5.85),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 180, 0))
-#
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesa.obj",
-#                 translate = V3(-6, -3.7, -5.85),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 180, 0))
-
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesa.obj",
-#                 translate = V3(-4, -3.7, -5.85),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 180, 0))
-
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesa.obj",
-#                 translate = V3(-2, -3.7, -5.85),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 180, 0))
-
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesa.obj",
-#                 translate = V3(0, -3.7, -5.85),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 180, 0))
-
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesa.obj",
-#                 translate = V3(2, -3.7, -5.85),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 180, 0))
-#
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesa.obj",
-#                 translate = V3(4, -3.7, -5.85),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 180, 0))
-#
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesa.obj",
-#                 translate = V3(6, -3.7, -5.85),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 180, 0))
-
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesa.obj",
-#                 translate = V3(8, -3.7, -5.85),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 180, 0))
-#
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesaEs.obj",
-#                 translate = V3(10, -3.7, -5.85),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 270, 0))
-
 #Fila Derecha
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesa.obj",
-#                 translate = V3(10, 1.25, -16.4),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 270, 0))
-
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/lavaPlatos.obj",
-#                 translate = V3(10, 0.023, -13.76),
-#                 scale = V3(1,1,0.91), 
-#                 rotate = V3(25, 270, 0))
-
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesa.obj",
-#                 translate = V3(10, -1.18, -11.21),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 270, 0))
-#
 rend.active_shader = thermal
+rend.glLoadModel("modelos/mesa.obj",
+                 translate = V3(10, 1.25, -16.4),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 270, 0))
+
+rend.glLoadModel("modelos/mesa.obj",
+                 translate = V3(10, -1.18, -11.21),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 270, 0))
+
 rend.glLoadModel("modelos/mesa.obj",
                  translate = V3(10, -2, -9.45),
                  scale = V3(1,1,1), 
                  rotate = V3(25, 270, 0))
 
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/basurero.obj",
-#                 translate = V3(10, -2.85, -7.64),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 270, 0))
+rend.glLoadModel("modelos/basurero.obj",
+                 translate = V3(10, -2.85, -7.64),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 270, 0))
 
 #Fila central 
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesaSin.obj",
-#                 translate = V3(-8, -0.35, -11),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 0, 0))
-#
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesaSin.obj",
-#                 translate = V3(-6, -0.35, -11),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 0, 0))
-#
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesaSin.obj",
-#                 translate = V3(-4, -0.35, -11),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 0, 0))
-#
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesaSin.obj",
-#                 translate = V3(-2, -0.35, -11),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 0, 0))
-#
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesaSin.obj",
-#                 translate = V3(0, -0.35, -11),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 0, 0))
-#
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesaSin.obj",
-#                 translate = V3(2, -0.35, -11),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 0, 0))
-#
-#rend.active_shader = thermal
-#rend.glLoadModel("modelos/mesaSin.obj",
-#                 translate = V3(4, -0.35, -11),
-#                 scale = V3(1,1,1), 
-#                 rotate = V3(25, 0, 0))
+rend.active_shader = wireframe
+rend.glLoadModel("modelos/mesaSin.obj",
+                 translate = V3(-8, -1.18, -11.21),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 0, 0))
 
-#Planta
+rend.glLoadModel("modelos/mesaSin.obj",
+                 translate = V3(-6, -1.18, -11.21),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 0, 0))
 
-#rend.active_texture = Texture("modelos/planta.bmp")
-#rend.normal_map = Texture("modelos/planta_normal.bmp")
-#rend.glLookAt(modelPosition, V3(0, 0, 0))
-#
-#rend.active_shader = normalMap
-#rend.glLoadModel("modelos/plantas.obj",
-#                 translate = V3(-4.8, 0, -6),
-#                 scale = V3(0.08,0.08,0.08), 
-#                 rotate = V3(35, 0, 10))
-#
-#rend.active_texture = Texture("modelos/maceta.bmp")
-#rend.normal_map = Texture("modelos/maceta_normal.bmp")
-#
-#rend.active_shader = normalMap
-#rend.glLoadModel("modelos/mazeta.obj",
-#                 translate = V3(-4.8, 0, -6),
-#                 scale = V3(0.08,0.08,0.08), 
-#                 rotate = V3(35, 0, 10))
-#
-#rend.active_texture = Texture("modelos/planta.bmp")
-#rend.normal_map = Texture("modelos/planta_normal.bmp")
-#rend.glLookAt(modelPosition, V3(0, 0, 0))
-#
-#rend.active_shader = normalMap
-#rend.glLoadModel("modelos/plantas.obj",
-#                 translate = V3(0, 16.5, -34),
-#                 scale = V3(0.7,0.7,0.7), 
-#                 rotate = V3(60, 90, 0))
-#
-#rend.active_texture = Texture("modelos/maceta.bmp")
-#rend.normal_map = Texture("modelos/maceta_normal.bmp")
-#
-#rend.active_shader = normalMap
-#rend.glLoadModel("modelos/mazeta.obj",
-#                 translate = V3(0, 16.5, -34),
-#                 scale = V3(0.7,0.7,0.7), 
-#                 rotate = V3(60, 90, 0))
-#
-#rend.active_texture = Texture("modelos/planta.bmp")
-#rend.normal_map = Texture("modelos/planta_normal.bmp")
-#rend.glLookAt(modelPosition, V3(0, 0, 0))
-#
-#rend.active_shader = normalMap
-#rend.glLoadModel("modelos/plantas.obj",
-#                 translate = V3(26, 14, -34),
-#                 scale = V3(0.7,0.7,0.7), 
-#                 rotate = V3(60, 90, 0))
-#
-#rend.active_texture = Texture("modelos/maceta.bmp")
-#rend.normal_map = Texture("modelos/maceta_normal.bmp")
-#
-#rend.active_shader = normalMap
-#rend.glLoadModel("modelos/mazeta.obj",
-#                 translate = V3(26, 14, -34),
-#                 scale = V3(0.7,0.7,0.7), 
-#                 rotate = V3(60, 90, 0))
-#
-#rend.active_texture = Texture("modelos/planta.bmp")
-#rend.normal_map = Texture("modelos/planta_normal.bmp")
-#rend.glLookAt(modelPosition, V3(0, 0, 0))
-#
-#rend.active_shader = normalMap
-#rend.glLoadModel("modelos/plantas.obj",
-#                 translate = V3(-26, 14, -34),
-#                 scale = V3(0.7,0.7,0.7), 
-#                 rotate = V3(60, 90, 0))
-#
-#rend.active_texture = Texture("modelos/maceta.bmp")
-#rend.normal_map = Texture("modelos/maceta_normal.bmp")
-#
-#rend.active_shader = normalMap
-#rend.glLoadModel("modelos/mazeta.obj",
-#                 translate = V3(-26, 14, -34),
-#                 scale = V3(0.7,0.7,0.7), 
-#                 rotate = V3(60, 90, 0))
+rend.glLoadModel("modelos/mesaSin.obj",
+                 translate = V3(-4, -1.18, -11.21),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 0, 0))
 
+rend.glLoadModel("modelos/mesaSin.obj",
+                 translate = V3(-2, -1.18, -11.21),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 0, 0))
+
+rend.glLoadModel("modelos/mesaSin.obj",
+                 translate = V3(0, -1.18, -11.21),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 0, 0))
+
+rend.glLoadModel("modelos/mesaSin.obj",
+                 translate = V3(2, -1.18, -11.21),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 0, 0))
+
+rend.glLoadModel("modelos/mesaSin.obj",
+                 translate = V3(4, -1.18, -11.21),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 0, 0))
+
+#Mesa de comida--------------------------------------------
+rend.active_texture = Texture("modelos/tela.bmp")
+rend.active_shader = toon
+rend.glLoadModel("modelos/mesaComer.obj",
+                 translate = V3(8, 4, -20),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 90, 0))
+
+rend.glLoadModel("modelos/mesaComer.obj",
+                 translate = V3(-8, 4, -20),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 90, 0))
+
+#Extinguidor======================================
+rend.active_texture2 = Texture("modelos/red.bmp")
+rend.active_texture = Texture("modelos/red2.bmp")
+rend.active_shader = textureBlend
+rend.glLoadModel("modelos/extinguidor.obj",
+                 translate = V3(10, 2.1, -15.9),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 270, 0))
+
+#Personaje----------------------------------------
+rend.active_texture = Texture("modelos/model.bmp")
+rend.active_shader = negative
+rend.glLoadModel("modelos/personaje3.obj",
+                 translate = V3(8, -2, -9.45),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 180, 0))
+
+#Metal--------------------------------------------
+rend.active_texture = Texture("modelos/metal.bmp")
+rend.normal_map = Texture("modelos/metal_normal.bmp")
+rend.active_shader = normalMap
+rend.glLoadModel("modelos/lavaPlatos.obj",
+                 translate = V3(10, 0.023, -13.76),
+                 scale = V3(1,1,0.91), 
+                 rotate = V3(25, 270, 0))
+
+rend.glLoadModel("modelos/estacionE.obj",
+                 translate = V3(-10, -2.49, -8.6),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 0, 0))
+
+rend.glLoadModel("modelos/cuchillo.obj",
+                 translate = V3(-6, -2.7, -5.4),
+                 scale = V3(0.25,0.25,0.25), 
+                 rotate = V3(25, -45, 90))
+
+rend.glLoadModel("modelos/cuchillo.obj",
+                 translate = V3(-2, -2.7, -5.4),
+                 scale = V3(0.25,0.25,0.25), 
+                 rotate = V3(25, -45, 90))
+
+rend.glLoadModel("modelos/estufa.obj",
+                 translate = V3(4, 2, -18),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 0, 0))
+
+#Cebolla------------------------------------------
+rend.active_texture = Texture("modelos/orange.bmp")
+rend.active_shader = unlit
+rend.glLoadModel("modelos/cebollaT.obj",
+                 translate = V3(-6, -2.7, -5.4),
+                 scale = V3(0.7,0.7,0.7), 
+                 rotate = V3(25, 270, 0))
+rend.directional_light = V3(-1,0,0)
+rend.active_shader = glow
+rend.glLoadModel("modelos/cebolla.obj",
+                 translate = V3(10, -1, -9.1),
+                 scale = V3(1,1,1), 
+                 rotate = V3(25, 270, 0))
+
+#Plantas---------------------------------------------------
+rend.glLookAt(modelPosition, V3(0, 0, 0))
+rend.active_texture = Texture("modelos/planta.bmp")
+rend.normal_map = Texture("modelos/planta_normal.bmp")
+
+rend.active_shader = normalMap
+rend.glLoadModel("modelos/plantas.obj",
+                 translate = V3(-4.8, 0, -6),
+                 scale = V3(0.08,0.08,0.08), 
+                 rotate = V3(35, 0, 10))
+
+rend.active_texture = Texture("modelos/maceta.bmp")
+rend.normal_map = Texture("modelos/maceta_normal.bmp")
+
+rend.active_shader = normalMap
+rend.glLoadModel("modelos/mazeta.obj",
+                 translate = V3(-4.8, 0, -6),
+                 scale = V3(0.08,0.08,0.08), 
+                 rotate = V3(35, 0, 10))
+
+rend.active_texture = Texture("modelos/planta.bmp")
+rend.normal_map = Texture("modelos/planta_normal.bmp")
+
+rend.active_shader = normalMap
+rend.glLoadModel("modelos/plantas.obj",
+                 translate = V3(0, 16.5, -34),
+                 scale = V3(0.7,0.7,0.7), 
+                 rotate = V3(60, 90, 0))
+
+rend.active_texture = Texture("modelos/maceta.bmp")
+rend.normal_map = Texture("modelos/maceta_normal.bmp")
+
+rend.active_shader = normalMap
+rend.glLoadModel("modelos/mazeta.obj",
+                 translate = V3(0, 16.5, -34),
+                 scale = V3(0.7,0.7,0.7), 
+                 rotate = V3(60, 90, 0))
+
+rend.active_texture = Texture("modelos/planta.bmp")
+rend.normal_map = Texture("modelos/planta_normal.bmp")
+
+rend.active_shader = normalMap
+rend.glLoadModel("modelos/plantas.obj",
+                 translate = V3(26, 14, -34),
+                 scale = V3(0.7,0.7,0.7), 
+                 rotate = V3(60, 90, 0))
+
+rend.active_texture = Texture("modelos/maceta.bmp")
+rend.normal_map = Texture("modelos/maceta_normal.bmp")
+
+rend.active_shader = normalMap
+rend.glLoadModel("modelos/mazeta.obj",
+                 translate = V3(26, 14, -34),
+                 scale = V3(0.7,0.7,0.7), 
+                 rotate = V3(60, 90, 0))
+
+rend.active_texture = Texture("modelos/planta.bmp")
+rend.normal_map = Texture("modelos/planta_normal.bmp")
+
+rend.active_shader = normalMap
+rend.glLoadModel("modelos/plantas.obj",
+                 translate = V3(-26, 14, -34),
+                 scale = V3(0.7,0.7,0.7), 
+                 rotate = V3(60, 90, 0))
+
+rend.active_texture = Texture("modelos/maceta.bmp")
+rend.normal_map = Texture("modelos/maceta_normal.bmp")
+
+rend.active_shader = normalMap
+rend.glLoadModel("modelos/mazeta.obj",
+                 translate = V3(-26, 14, -34),
+                 scale = V3(0.7,0.7,0.7), 
+                 rotate = V3(60, 90, 0))
 
 #-------------------------------------------------------------------------------------------------------------------------
 #Shaders
