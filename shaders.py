@@ -261,6 +261,21 @@ def wireframe(render, **kwargs):
 
     return r, g, b
 
+def Vectors(render, **kwargs):
+   #Iluminacion por pixel
+    u, v, w = kwargs['baryCoords']
+
+    r,g,b = (0,0,0)
+
+    if u < 0.05: 
+        r,g,b = (1,1,1)
+    elif v < 0.05:
+        r,g,b = (1,1,1) 
+    elif w < 0.05:
+        r,g,b = (1,1,1) 
+
+    return r, g, b
+
 def VectorsColors(render, **kwargs):
    #Iluminacion por pixel
     u, v, w = kwargs['baryCoords']
@@ -562,9 +577,18 @@ def normalMap(render, **kwargs):
 
         edge1 = sub(B, A)
         edge2 = sub(C, A)
-        tA = V3(tA[0], tA[1], tA[2])
-        tB = V3(tB[0], tB[1], tB[2])
-        tC = V3(tC[0], tC[1], tC[2])
+        if len(tA) == 2:
+            tA = V3(tA[0], tA[1], 0)
+        else:
+            tA = V3(tA[0], tA[1], tA[2])
+        if len(tB) == 2:
+            tB = V3(tB[0], tB[1], 0)
+        else:
+            tB = V3(tB[0], tB[1], tB[2])
+        if len(tC) == 2:
+            tC = V3(tC[0], tC[1], 0)
+        else:
+            tC = V3(tC[0], tC[1], tC[2])
         deltaUV1 = sub(tB, tA)
         deltaUV2 = sub(tC, tA)
 
