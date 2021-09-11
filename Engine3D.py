@@ -22,7 +22,7 @@ rend.directional_light = V3(0,0,1)
 
 rend.glLookAt(modelPosition, V3(0, 10, 0))
 
-#Cebolla------------------------------------------
+#Olla ------------------------------------------
 rend.active_shader = thermal
 rend.glLoadModel("modelos/olla.obj",
                  translate = V3(4, 3, -17.4),
